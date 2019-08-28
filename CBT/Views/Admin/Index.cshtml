@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row card">
+    <div class="col-sm-3">
+        <div class="card">
+            <a href="@Url.Action("Create","Students")">
+                Register Student
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <a href="@Url.Action("Create","Exams")">
+                Setup Exam
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <a href="@Url.Action("Create","ExamQuestions")">
+                Set Exam Question
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <a href="@Url.Action("Create","StudentExams")">
+                Assign Student to Exam
+            </a>
+        </div>
+    </div> 
+    <div class="col-sm-3">
+        <div class="card">
+            <a href="@Url.Action("Index","Students")">
+                Total Students <span class="badge">   @ViewBag.totalStudent</span>
+            </a>
+        </div>
+       
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <a href="@Url.Action("Index","Students")">
+                Total Exam Created <span class="badge">   @ViewBag.totalExam</span>
+            </a>
+        </div>
+       
+    </div>
+
+</div>
+

@@ -1,0 +1,111 @@
+﻿@using System.Data.Entity
+
+@model PagedList.IPagedList<ExamQuestion>
+@using PagedList.Mvc;
+
+
+@using CBT.Entities
+
+@{
+    ViewBag.Title = "StartExam";
+    var db = new CBTEntities();
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+    var examNo = Convert.ToInt32(Session["examCode"]);
+    var studentExam = db.StudentExams.Where(a => a.ID == examNo).Include(a => a.Exam).Include(a => a.Exam.ExamQuestions).Include(a => a.Student.StudentAnswers).Include(a => a.Student).SingleOrDefault();
+    var studentId = studentExam.Student.Id;
+    var studentExamNumber = studentExam.ID;
+    
+}
+<div class="row">
+
+
+    <div class="col-md-4">
+        Exam Questions
+        <p class="text-danger">@ViewBag.error</p>
+        @foreach (var i in Model)
+        { 
+        <form method="post" action="@Url.Action("StartExam")">
+
+            <div class="well-sm">
+                @*
+
+                            public int QuestionId { get; set; }
+            public int StudentId { get; set; }
+                public string Answer { get; set; }
+                public int ExamNo { get; set; }
+                public int StudentExamNo { get; set; }
+
+                public int CurrentPageNo { get; set; }*@
+                <input type="hidden" name="QuestionId" value="@i.Id" />
+                <input type="hidden" name="StudentId" value="@studentId" />
+                <input type="hidden" name="ExamNo" value="@examNo" />
+                <input type="hidden" name="StudentExamNo" value="@studentExamNumber" />
+                <input type="hidden" name="CurrentPageNo" value="@Model.PageNumber" />
+
+
+
+                <p> <b> Question - </b>  @i.Question  </p>
+
+                <textarea class="form-control answer" name="Answer" rows="5" data-examcode="@examNo" data-questionId="@i.Id"> </textarea>
+            </div>
+            <button type="submit" class="btn btn-success"> Submit</button>
+        </form>
+          
+        }
+  
+        Questions @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("StartExam",
+            new { page }))
+    </div>
+
+    <div class="col-md-4">
+        <h4>Exam Questions </h4>
+        @foreach (var i in studentExam.Exam.ExamQuestions.ToList())
+        {
+            var count2 = 0; count2++;
+
+            <div class="well-sm">
+
+                @*@foreach (var a in i.StudentAnswers)
+                    {
+                        if (a.QuestionId == i.Id)
+                        {
+                            <p class="text-success"> <b> Question @count - </b>  @i.Question  </p>
+                            <textarea class="form-control" rows="5" disabled="disabled"> @a.Answer </textarea>
+
+                        }
+                    }*@
+                <a href="@Url.Action("StartExam", new { page = count2 })"> <b>  </b>  @i.Question  </a>  <br />
+
+            </div>
+        }
+    </div>
+
+    <div class="col-md-4">
+        <h3> Student Information</h3>
+        <div class="bg-info" style="padding: 10px">
+            Name: @studentExam.Student.FirstName  @studentExam.Student.LastName <br />
+            Department: @studentExam.Student.Department
+            Student  Examination Number : @studentExam.ID <br />
+            <hr />
+            Examination Number : @studentExam.Exam.ID <br />
+            Exam: @studentExam.Exam.Name  <br /> @studentExam.Exam.Description 
+            <a href="@Url.Action("ExamResult", new { id=studentExamNumber })"> View Result</a>
+        </div>
+    </div>
+</div>
+@*@section scripts
+{
+    <script src="~/ckeditor/ckeditor.js"></script>
+
+    <script>
+        var ele = document.getElementsByClassName("answer");
+        CKEDITOR.replace('answer', {
+           disableNativeSpellChecker : false
+        });
+    </script>
+
+}*@
+
+

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<CBT.Entities.StudentAnswer>
+
+@{
+    ViewBag.Title = "ExamResult";
+}
+
+<h2>Exam Result</h2>
+
+@{
+    var totalScore = 0.0m;
+}
+<table class="table">
+    <tr>
+        <th>
+           S/N
+        </th>
+        <th>
+          Question
+        </th> 
+        <th>
+            Question Answer
+        </th>
+        <th>
+           Point
+        </th>
+        <th>
+          Student Answer
+        </th>
+        <th>
+           Precision 
+        </th>
+        <th>
+         Score
+        </th>
+   
+        <th></th>
+    </tr>
+
+@foreach (var i in Model)
+{
+    var count = 0;
+    count++;
+    <tr>
+        <td>
+            @count
+        </td>
+        <td>
+            @i.ExamQuestion.Question
+        </td>
+        <td>
+            @i.ExamQuestion.Answer
+        </td>
+        <td>
+            @i.ExamQuestion.Point
+        </td>
+        <td>
+            @i.Answer
+        </td>
+        <td>
+            @{
+                var prec = i.PrecisionLevel * 100;
+            }
+            @prec %
+        </td>
+        <td>
+            @i.Score
+        </td>
+        @{
+            totalScore += Convert.ToDecimal(i.Score);
+        }
+        <td>
+         
+        </td>
+   
+    </tr>
+
+}
+    <tr>
+        <td colspan="5"></td>
+        <td> Total Score/Point: @totalScore </td>
+
+    </tr>
+</table>

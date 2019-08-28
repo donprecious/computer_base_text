@@ -1,0 +1,72 @@
+﻿@using CBT.Entities
+@model CBT.Entities.ExamQuestion
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>ExamQuestion</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.ExamId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @{
+                var exams = new CBTEntities().Exams.ToList();
+            }
+            <select name="@Html.NameFor(a => a.ExamId)" class="form-control">
+                @foreach (var i in exams)
+                {
+                    <option value="@i.ID"> @i.Name</option>
+                }
+            </select>
+
+            @Html.ValidationMessageFor(model => model.ExamId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Question, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Question, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Answer, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Answer, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-2">Pont / Score</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Point, new { @class = "form-control", type="number" })
+            @Html.ValidationMessageFor(model => model.Point, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

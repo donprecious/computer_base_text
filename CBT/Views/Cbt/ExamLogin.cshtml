@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "ExamLogin";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="well">
+            <h3> Login with your exam code/number </h3>
+
+            @using (Html.BeginForm())
+            {
+                <span class="text-danger"> @ViewBag.error</span>
+                <input type="text" name="examCode" id="examCode" class="form-control" placeholder="exam code" /> <br />
+                <button type="submit" class="btn btn-primary"> Login</button>
+                @*<a  class="btn btn-primary" id="portalLogin"> Login to Portal</a>*@
+            }
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    $("#portalLogin").click(function () { 
+      var code =  $("#examCode").val();
+        if ($("#examCode").val() == null || $("#examCode").val() == undefined) {
+            alert("Enter exam number to login")
+        } else {
+            // login 
+
+        }
+    })
+</script>
+    }
+
+

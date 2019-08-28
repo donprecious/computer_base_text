@@ -58,7 +58,7 @@
         @Html.PagedListPager(Model, page => Url.Action("StartExam",
             new { page }))
     </div>
-
+      
     <div class="col-md-4">
         <h4>Exam Questions </h4>
         @foreach (var i in studentExam.Exam.ExamQuestions.ToList())
